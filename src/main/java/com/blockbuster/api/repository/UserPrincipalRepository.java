@@ -8,4 +8,6 @@ import com.blockbuster.api.models.UserPrincipal;
 @Repository
 public interface UserPrincipalRepository extends JpaRepository<UserPrincipal, Long> {
 
+	public UserPrincipal findByUsername(String username);
+
 }

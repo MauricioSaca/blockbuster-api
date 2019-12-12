@@ -1,6 +1,5 @@
 package com.blockbuster.api.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,9 +22,6 @@ import com.blockbuster.api.repository.UserPrincipalRepository;
 @EntityScan(basePackages = { "com.blockbuster.api.models" })
 @EnableJpaRepositories("com.blockbuster.api.repository")
 public class BlockBusterApplication extends SpringBootServletInitializer {
-
-	@Autowired
-	UserPrincipalRepository repository;
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
