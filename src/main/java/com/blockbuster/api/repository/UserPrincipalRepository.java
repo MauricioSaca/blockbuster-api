@@ -10,4 +10,10 @@ public interface UserPrincipalRepository extends JpaRepository<UserPrincipal, Lo
 
 	public UserPrincipal findByUsername(String username);
 
+	public UserPrincipal findByEmailIgnoreCase(String email);
+
+	public Boolean existsByUsername(String username);
+
+	public Boolean existsByEmail(String email);
+
 }

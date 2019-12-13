@@ -2,6 +2,7 @@ package com.blockbuster.api.service;
 
 import java.util.List;
 
+import com.blockbuster.api.models.Authorities;
 import com.blockbuster.api.models.UserPrincipal;
 
 public interface UserPrincipalService {
@@ -10,7 +11,7 @@ public interface UserPrincipalService {
 
 	List<UserPrincipal> findAllUserPrincipals();
 
-	void saveUserPrincipal(UserPrincipal userPrincipal);
+	UserPrincipal saveUserPrincipal(UserPrincipal userPrincipal, Authorities authorities);
 
 	void updateUserPrincipal(UserPrincipal userPrincipal);
 

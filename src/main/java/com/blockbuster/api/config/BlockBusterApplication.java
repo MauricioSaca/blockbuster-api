@@ -41,7 +41,7 @@ public class BlockBusterApplication extends SpringBootServletInitializer {
 		adminUser.setLastName("Saca");
 		adminUser.setUsername("msaca");
 		adminUser.setPassword(password);
-		adminUser.setEmail("saca.menendez@gmail.com");
+		adminUser.setEmail("mauricio.saca@mh.gob.sv");
 		adminUser.setEnabled(true);
 
 		Authorities auth = new Authorities();

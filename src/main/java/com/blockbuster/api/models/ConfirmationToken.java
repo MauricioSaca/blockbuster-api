@@ -6,6 +6,8 @@
 package com.blockbuster.api.models;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,54 +18,48 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
-import com.blockbuster.api.enums.RoleEnum;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
-@Table(name = "authorities")
+@Table(name = "confirmation_token")
 @EqualsAndHashCode(of = { "id" })
-@ToString(of = { "id" })
 @Getter
 @Setter
-@RequiredArgsConstructor
 @NoArgsConstructor
-public class Authorities implements Serializable {
+public class ConfirmationToken implements Serializable {
 
-	private static final long serialVersionUID = -4511453175584683904L;
+	private static final long serialVersionUID = 676217465946097L;
 
 	@Id
-	@NonNull
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable = false)
 	private Long id;
 
-	@Column(nullable = false)
-	private String authority;
+	@Column(length = 255, nullable = true)
+	private String confirmationToken;
+
+	@Column(nullable = true)
+	@Temporal(TemporalType.DATE)
+	private Date createDate;
 
 	@ManyToOne
 	@JoinColumns({ @JoinColumn(name = "USERNAME", referencedColumnName = "USERNAME", nullable = false) })
 	@NotFound(action = NotFoundAction.IGNORE)
 	private UserPrincipal userPrincipal;
 
-	// Relation by enum
-
-	public RoleEnum getRole() {
-		return RoleEnum.getRoleEnum(this.authority);
-	}
-
-	public void setRole(RoleEnum role) {
-		this.authority = role != null ? role.getCode() : null;
+	public ConfirmationToken(UserPrincipal userPrincipal) {
+		this.userPrincipal = userPrincipal;
+		this.createDate = new Date();
+		confirmationToken = UUID.randomUUID().toString();
 	}
 
 }
