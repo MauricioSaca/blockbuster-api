@@ -13,11 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import org.springframework.web.multipart.MultipartFile;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -51,7 +46,7 @@ public class Movie implements Serializable {
 	@Column(nullable = false)
 	private String description;
 
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private byte[] image;
 
 	@Column(nullable = false)
@@ -65,9 +60,5 @@ public class Movie implements Serializable {
 
 	@Column(nullable = false)
 	private Boolean availability;
-
-	@Transient
-	@JsonIgnore
-	private MultipartFile file;
 
 }

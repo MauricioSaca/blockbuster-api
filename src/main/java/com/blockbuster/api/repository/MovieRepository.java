@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 import com.blockbuster.api.models.Movie;
 
 @Repository
-public interface MovieRepository extends JpaRepository<Movie, Long>{
+public interface MovieRepository extends JpaRepository<Movie, Long> {
 
-	List<Movie> findByTitle(String title);
+	public List<Movie> findByTitle(String title);
+
+	public Boolean existsByTitle(String title);
 }
