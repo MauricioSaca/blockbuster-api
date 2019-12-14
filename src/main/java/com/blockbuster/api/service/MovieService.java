@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.blockbuster.api.models.Movie;
+import com.blockbuster.api.models.MovieLog;
 
 public interface MovieService {
 
@@ -15,7 +16,7 @@ public interface MovieService {
 
 	void saveMovie(Movie movie);
 
-	void updateMovie(Movie movie);
+	void updateMovie(Movie movie, MovieLog movieLog);
 
 	void removeMovie(Long id);
 

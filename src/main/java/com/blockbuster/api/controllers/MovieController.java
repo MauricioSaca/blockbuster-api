@@ -1,5 +1,6 @@
 package com.blockbuster.api.controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -7,6 +8,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blockbuster.api.models.Movie;
+import com.blockbuster.api.models.MovieLog;
+import com.blockbuster.api.models.UserPrincipal;
 import com.blockbuster.api.pojos.ApiResponse;
 import com.blockbuster.api.repository.MovieRepository;
+import com.blockbuster.api.service.MovieService;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -34,6 +40,9 @@ public class MovieController {
 
 	@Autowired
 	private MovieRepository movieRepository;
+	
+	@Autowired
+	private MovieService movieService;
 
 	@GetMapping("/movies")
 	public List<Movie> findAll() {
@@ -59,7 +68,16 @@ public class MovieController {
 
 	@PutMapping("/action/movies/update")
 	public ResponseEntity<?> updateMovie(@Valid @RequestBody Movie movie) {
-		movieRepository.save(movie);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserPrincipal user = (UserPrincipal) authentication.getPrincipal();
+		MovieLog movieLog = new MovieLog();
+		movieLog.setTitle(movie.getTitle());
+		movieLog.setRentalPrice(movie.getRentalPrice());
+		movieLog.setSalesPrice(movie.getSalesPrice());
+		movieLog.setMovie(movie);
+		movieLog.setUsername(user.getUsername());
+		movieLog.setModificateDate(new Date());
+		movieService.updateMovie(movie, movieLog);
 		return ResponseEntity.ok(new ApiResponse(true, "Movie updated"));
 	}
 
