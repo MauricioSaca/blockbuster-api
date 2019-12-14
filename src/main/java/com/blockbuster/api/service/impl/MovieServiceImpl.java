@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.blockbuster.api.models.Movie;
+import com.blockbuster.api.models.MovieLog;
+import com.blockbuster.api.repository.MovieLogRepository;
 import com.blockbuster.api.repository.MovieRepository;
 import com.blockbuster.api.service.MovieService;
 
@@ -16,6 +18,9 @@ public class MovieServiceImpl implements MovieService {
 
 	@Autowired
 	private MovieRepository movieRepository;
+	
+	@Autowired
+	private MovieLogRepository movieLogRepository;
 
 	@Override
 	public Movie findMovieById(Long id) {
@@ -35,9 +40,9 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public void updateMovie(Movie movie) {
-		// TODO Auto-generated method stub
-
+	public void updateMovie(Movie movie, MovieLog movieLog) {
+		movieRepository.save(movie);
+		movieLogRepository.save(movieLog);
 	}
 
 	@Override
