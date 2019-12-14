@@ -5,7 +5,6 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -46,22 +45,22 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	// Secure the endpoins with HTTP Basic authentication
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-
 		 http
          //HTTP Basic authentication
          .httpBasic()
-         .and()
-         .authorizeRequests()
-         .antMatchers("/api/auth/**").permitAll()
-         .antMatchers(HttpMethod.GET, "/movies/**").hasRole("ADMIN")
-         .antMatchers(HttpMethod.POST, "/movies").hasRole("ADMIN")
-         .antMatchers(HttpMethod.PUT, "/movies/**").hasRole("ADMIN")
-         .antMatchers(HttpMethod.PATCH, "/movies/**").hasRole("ADMIN")
-         .antMatchers(HttpMethod.DELETE, "/movies/**").hasRole("ADMIN")
-         .and()
-         .csrf().disable().exceptionHandling()
-         .authenticationEntryPoint(unauthorizedHandler).and()
-         .formLogin().disable();
+         	.and()
+         		.authorizeRequests()
+         			.antMatchers("/api/auth/**").permitAll()
+         			.antMatchers("/blockbuster/movies/**").permitAll()
+         			.antMatchers("/blockbuster/action/movies/**").hasRole("ADMIN")
+         	.and()
+         		.csrf()
+         			.disable()
+         				.exceptionHandling()
+         					.authenticationEntryPoint(unauthorizedHandler)
+         	.and()
+         		.formLogin()
+         			.disable();
 		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 
