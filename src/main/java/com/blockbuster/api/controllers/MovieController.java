@@ -1,11 +1,13 @@
 package com.blockbuster.api.controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blockbuster.api.models.Movie;
@@ -39,7 +42,7 @@ public class MovieController {
 
 	@Autowired
 	private MovieRepository movieRepository;
-	
+
 	@Autowired
 	private MovieService movieService;
 
@@ -51,6 +54,36 @@ public class MovieController {
 	@GetMapping("/movies/{id}")
 	public Movie getMovieDetails(@PathVariable("id") Long id) {
 		return movieRepository.findById(id).orElse(new Movie());
+	}
+
+	@GetMapping("/admins/movies")
+	public ResponseEntity<List<Movie>> findMoviesByAvailability(
+			@RequestParam(defaultValue = "0", required = false) Integer pageNo,
+			@RequestParam(defaultValue = "10", required = false) Integer pageSize,
+			@RequestParam(defaultValue = "id", required = false) String sortBy,
+			@RequestParam(defaultValue = "asc", required = false) String direction,
+			@RequestParam(defaultValue = "true", required = false) Boolean enabled) {
+		List<Movie> list = movieService.findAllMoviesByAvailability(pageNo, pageSize, sortBy, direction, enabled);
+
+		return new ResponseEntity<List<Movie>>(list, new HttpHeaders(), HttpStatus.OK);
+	}
+
+	@GetMapping("/users/movies")
+	public ResponseEntity<List<Movie>> findMoviesByTitle(
+			@RequestParam(defaultValue = "0", required = false) Integer pageNo,
+			@RequestParam(defaultValue = "10", required = false) Integer pageSize,
+			@RequestParam(defaultValue = "title", required = false) String sortBy,
+			@RequestParam(defaultValue = "asc", required = false) String direction,
+			@RequestParam(required = false) String title) {
+
+		List<Movie> list = new ArrayList<>();
+		if (title != null) {
+			list = movieService.findAllMoviesByTitle(pageNo, pageSize, sortBy, direction, title.toLowerCase());
+		} else {
+			list = movieService.findAllMoviesByTitle(pageNo, pageSize, sortBy, direction, title);
+		}
+
+		return new ResponseEntity<List<Movie>>(list, new HttpHeaders(), HttpStatus.OK);
 	}
 
 	@PostMapping("/action/movies/save")
