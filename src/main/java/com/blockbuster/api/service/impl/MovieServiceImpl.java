@@ -27,12 +27,6 @@ public class MovieServiceImpl implements MovieService {
 	private MovieLogRepository movieLogRepository;
 
 	@Override
-	public Movie findMovieById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<Movie> findAllMoviesByAvailability(Integer pageNo, Integer pageSize, String sortBy, String direction,
 			Boolean availability) {
 
@@ -79,30 +73,6 @@ public class MovieServiceImpl implements MovieService {
 	public void updateMovie(Movie movie, MovieLog movieLog) {
 		movieRepository.save(movie);
 		movieLogRepository.save(movieLog);
-	}
-
-	@Override
-	public void removeMovie(Long id) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteMovie(Long id) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Page<Movie> findAll(Pageable page) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Movie> findByTitle(String title) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

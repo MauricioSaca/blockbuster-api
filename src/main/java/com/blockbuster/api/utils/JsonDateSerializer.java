@@ -1,3 +1,8 @@
+/***********************************************************************
+ * Module:  JsonDateSerializer.java
+ * Author:  Mauricio Saca
+ * Purpose: Defines the Class JsonDateSerializer
+ ***********************************************************************/
 package com.blockbuster.api.utils;
 
 import java.io.IOException;

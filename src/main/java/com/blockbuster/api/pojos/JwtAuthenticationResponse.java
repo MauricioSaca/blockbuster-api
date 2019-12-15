@@ -1,3 +1,8 @@
+/***********************************************************************
+ * Module:  JwtAuthenticationResponse.java
+ * Author:  Mauricio Saca
+ * Purpose: Defines the Class JwtAuthenticationResponse
+ ***********************************************************************/
 package com.blockbuster.api.pojos;
 
 import java.io.Serializable;

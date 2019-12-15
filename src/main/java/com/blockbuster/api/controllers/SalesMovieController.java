@@ -30,7 +30,11 @@ import com.blockbuster.api.utils.SecurityUtils;
 
 import lombok.Getter;
 import lombok.Setter;
-
+/**
+ * 
+ * @author msaca
+ *
+ */
 @RestController
 @RequestMapping("/blockbuster")
 @Validated
@@ -47,6 +51,12 @@ public class SalesMovieController {
 	@Autowired
 	private MovieRepository movieRepository;
 
+	/**
+	 * Metodo que guarda renta de una pelicula
+	 * @param id de la movie
+	 * @param saleLogBook
+	 * @return ResponseEntity<?>
+	 */
 	@PostMapping("/rent/movies/{id}/salelogbook")
 	public ResponseEntity<?> registerMovieRentTransaction(@PathVariable("id") Long id,
 			@Valid @RequestBody SaleLogBook saleLogBook) {
@@ -77,6 +87,11 @@ public class SalesMovieController {
 		return ResponseEntity.ok(new ApiResponse(true, "Rent registered"));
 	}
 
+	/**
+	 * Metodo que genera la devolucion de la pelicula rentada
+	 * @param id de la compra
+	 * @return ResponseEntity<?>
+	 */
 	@PatchMapping("/rent/movies/giveback/salelogbook/{id}")
 	public ResponseEntity<?> giveBackMovieRentTransaction(@PathVariable("id") Long id) {
 
@@ -104,6 +119,12 @@ public class SalesMovieController {
 		return ResponseEntity.ok(new ApiResponse(true, "Rent paid registered"));
 	}
 
+	/**
+	 * Metodo que guarada una compra de pelicula
+	 * @param id
+	 * @param saleLogBook
+	 * @return ResponseEntity<?>
+	 */
 	@PostMapping("/purchase/movies/{id}/salelogbook")
 	public ResponseEntity<?> registerMoviePurchaseTransaction(@PathVariable("id") Long id,
 			@Valid @RequestBody SaleLogBook saleLogBook) {

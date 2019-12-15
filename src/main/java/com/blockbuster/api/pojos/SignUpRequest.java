@@ -1,3 +1,8 @@
+/***********************************************************************
+ * Module:  SignUpRequest.java
+ * Author:  Mauricio Saca
+ * Purpose: Defines the Class SignUpRequest
+ ***********************************************************************/
 package com.blockbuster.api.pojos;
 
 import java.io.Serializable;

@@ -1,3 +1,8 @@
+/***********************************************************************
+ * Module:  LoginRequest.java
+ * Author:  Mauricio Saca
+ * Purpose: Defines the Class LoginRequest
+ ***********************************************************************/
 package com.blockbuster.api.pojos;
 
 import java.io.Serializable;

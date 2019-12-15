@@ -41,6 +41,11 @@ import com.blockbuster.api.service.impl.EmailSenderService;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 
+ * @author msaca
+ *
+ */
 @RestController
 @RequestMapping("/api/auth")
 @Getter
@@ -71,6 +76,12 @@ public class AuthController {
 	@Value("${app.from.mail}")
 	private String fromMail;
 
+	/**
+	 * Metodo para obtener el token por jwt
+	 * 
+	 * @param loginRequest
+	 * @return ResponseEntity<?>
+	 */
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -83,6 +94,12 @@ public class AuthController {
 		return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
 	}
 
+	/**
+	 * Metodo para agregar usuarios al api con confirmacion al correo
+	 * 
+	 * @param signUpRequest
+	 * @return ResponseEntity<?>
+	 */
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 
@@ -129,6 +146,12 @@ public class AuthController {
 		return ResponseEntity.created(location).body(new ApiResponse(true, "User registered"));
 	}
 
+	/**
+	 * Metodo de confirmacion de la cuenta de usuario
+	 * 
+	 * @param confirmationToken
+	 * @return ResponseEntity<?>
+	 */
 	@PatchMapping("/confirm-account")
 	public ResponseEntity<?> confirmUser(@RequestParam("token") String confirmationToken) {
 		ApiResponse result = new ApiResponse();
@@ -148,6 +171,13 @@ public class AuthController {
 		return ResponseEntity.ok(new ApiResponse(true, "User registered successfully"));
 	}
 
+	/**
+	 * Metodo para cambiar de rol a usuario
+	 * 
+	 * @param username
+	 * @param role     nuevo rol a asignar a usuario
+	 * @return ResponseEntity<?>
+	 */
 	@PatchMapping("/change/user/{username}/authorities/{role}")
 	public ResponseEntity<?> changeUserRole(@PathVariable("username") String username,
 			@PathVariable("role") String role) {
