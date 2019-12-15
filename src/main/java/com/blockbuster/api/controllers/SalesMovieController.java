@@ -30,6 +30,7 @@ import com.blockbuster.api.utils.SecurityUtils;
 
 import lombok.Getter;
 import lombok.Setter;
+
 /**
  * 
  * @author msaca
@@ -53,7 +54,8 @@ public class SalesMovieController {
 
 	/**
 	 * Metodo que guarda renta de una pelicula
-	 * @param id de la movie
+	 * 
+	 * @param id          de la movie
 	 * @param saleLogBook
 	 * @return ResponseEntity<?>
 	 */
@@ -79,7 +81,7 @@ public class SalesMovieController {
 				saleLogBook.setTotal(price);
 				saleLogBookService.saveSaleLogBook(saleLogBook, movie);
 			}
-			
+
 		} else {
 			return new ResponseEntity(new ApiResponse(false, "Movie not exist!"), HttpStatus.BAD_REQUEST);
 		}
@@ -89,6 +91,7 @@ public class SalesMovieController {
 
 	/**
 	 * Metodo que genera la devolucion de la pelicula rentada
+	 * 
 	 * @param id de la compra
 	 * @return ResponseEntity<?>
 	 */
@@ -103,7 +106,7 @@ public class SalesMovieController {
 			Double newTotal = saleLogBook.getTotal() + penaltyMoney;
 			Movie movie = saleLogBook.getMovie();
 			sumMovieStock(movie);
-			
+
 			saleLogBook.setReturnDate(new Date());
 			saleLogBook.setEnableRent(false);
 			saleLogBook.setPenaltyDays(days);
@@ -113,7 +116,7 @@ public class SalesMovieController {
 
 			saleLogBookService.saveSaleLogBook(saleLogBook, movie);
 		} else {
-			return new ResponseEntity(new ApiResponse(false, "Movie not exist!"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(new ApiResponse(false, "Sale not exits!"), HttpStatus.BAD_REQUEST);
 		}
 
 		return ResponseEntity.ok(new ApiResponse(true, "Rent paid registered"));
@@ -121,6 +124,7 @@ public class SalesMovieController {
 
 	/**
 	 * Metodo que guarada una compra de pelicula
+	 * 
 	 * @param id
 	 * @param saleLogBook
 	 * @return ResponseEntity<?>
@@ -132,14 +136,20 @@ public class SalesMovieController {
 		if (movieRepository.existsById(id)) {
 			UserPrincipal user = SecurityUtils.getCurrentUser();
 			Movie movie = movieRepository.findById(id).orElse(new Movie());
-			saleLogBook.setTransactionType(TransactionType.PURCHASE);
-			saleLogBook.setTransationDate(new Date());
-			saleLogBook.setMovie(movie);
-			saleLogBook.setUserPrincipal(user);
-			saleLogBook.setEnableRent(false);
-			Double price = movie.getRentalPrice() * saleLogBook.getStock();
-			saleLogBook.setTotal(price);
-			saleLogBookRepository.save(saleLogBook);
+
+			if (isNotAvailableMovie(movie)) {
+				return new ResponseEntity(new ApiResponse(false, "Movie not have stock!"), HttpStatus.BAD_REQUEST);
+			} else {
+				saleLogBook.setTransactionType(TransactionType.PURCHASE);
+				saleLogBook.setTransationDate(new Date());
+				saleLogBook.setMovie(movie);
+				saleLogBook.setUserPrincipal(user);
+				saleLogBook.setEnableRent(false);
+				Double price = movie.getRentalPrice() * saleLogBook.getStock();
+				saleLogBook.setTotal(price);
+				saleLogBookRepository.save(saleLogBook);
+			}
+
 		} else {
 			return new ResponseEntity(new ApiResponse(false, "Movie not exist!"), HttpStatus.BAD_REQUEST);
 		}
@@ -165,14 +175,13 @@ public class SalesMovieController {
 			return PenaltyPeriodicity.HIGH;
 		}
 	}
-	
 
 	private void substractMovieStock(Movie movie) {
 		Integer newStock = movie.getStock() - 1;
 		movie.setStock(newStock);
 		setUnavailabilityMovie(movie);
 	}
-	
+
 	private void setUnavailabilityMovie(Movie movie) {
 		if (isNotAvailableMovie(movie)) {
 			movie.setAvailability(false);
@@ -183,7 +192,6 @@ public class SalesMovieController {
 		Integer newStock = movie.getStock() + 1;
 		movie.setStock(newStock);
 	}
-	
 
 	private boolean isNotAvailableMovie(Movie movie) {
 		if (movie.getStock() == 0) {
