@@ -1,3 +1,8 @@
+/***********************************************************************
+ * Module:  SortingDirection.java
+ * Author:  Mauricio Saca
+ * Purpose: Defines the Class PenaltyPeriodicity
+ ***********************************************************************/
 package com.blockbuster.api.enums;
 
 public enum SortingDirection {

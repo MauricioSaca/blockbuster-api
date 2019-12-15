@@ -1,3 +1,8 @@
+/***********************************************************************
+ * Module:  ObjectUtils.java
+ * Author:  Mauricio Saca
+ * Purpose: Defines the Class ObjectUtils
+ ***********************************************************************/
 package com.blockbuster.api.utils;
 
 import java.text.SimpleDateFormat;

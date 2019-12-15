@@ -1,3 +1,8 @@
+/***********************************************************************
+ * Module:  SecurityUtils.java
+ * Author:  Mauricio Saca
+ * Purpose: Defines the Class SecurityUtils
+ ***********************************************************************/
 package com.blockbuster.api.utils;
 
 import org.springframework.security.core.Authentication;

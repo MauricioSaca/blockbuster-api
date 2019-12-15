@@ -1,3 +1,8 @@
+/***********************************************************************
+ * Module:  ApiResponse.java
+ * Author:  Mauricio Saca
+ * Purpose: Defines the Class ApiResponse
+ ***********************************************************************/
 package com.blockbuster.api.pojos;
 
 import java.io.Serializable;

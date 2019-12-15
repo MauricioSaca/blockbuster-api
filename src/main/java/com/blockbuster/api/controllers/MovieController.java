@@ -33,6 +33,11 @@ import com.blockbuster.api.utils.SecurityUtils;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 
+ * @author msaca
+ *
+ */
 @RestController
 @RequestMapping("/blockbuster")
 @Validated
@@ -46,16 +51,34 @@ public class MovieController {
 	@Autowired
 	private MovieService movieService;
 
+	/**
+	 * Metodo para listar todas las peliculas
+	 * @return List<Movie>
+	 */
 	@GetMapping("/movies")
 	public List<Movie> findAll() {
 		return movieRepository.findAll();
 	}
 
+	/**
+	 * Metodo para obtener el detalle de la pelicula
+	 * @param id de la movie
+	 * @return Movie
+	 */
 	@GetMapping("/movies/{id}")
 	public Movie getMovieDetails(@PathVariable("id") Long id) {
 		return movieRepository.findById(id).orElse(new Movie());
 	}
 
+	/**
+	 * Metodo para listar las peliculas habilitadas
+	 * @param pageNo
+	 * @param pageSize
+	 * @param sortBy
+	 * @param direction
+	 * @param enabled
+	 * @return ResponseEntity<List<Movie>>
+	 */
 	@GetMapping("/admins/movies")
 	public ResponseEntity<List<Movie>> findMoviesByAvailability(
 			@RequestParam(defaultValue = "0", required = false) Integer pageNo,
@@ -68,6 +91,15 @@ public class MovieController {
 		return new ResponseEntity<List<Movie>>(list, new HttpHeaders(), HttpStatus.OK);
 	}
 
+	/**
+	 * Metodo para listar las peliculas disponibles para los usuarios
+	 * @param pageNo
+	 * @param pageSize
+	 * @param sortBy
+	 * @param direction
+	 * @param title
+	 * @return ResponseEntity<List<Movie>>
+	 */
 	@GetMapping("/users/movies")
 	public ResponseEntity<List<Movie>> findMoviesByTitle(
 			@RequestParam(defaultValue = "0", required = false) Integer pageNo,
@@ -86,6 +118,11 @@ public class MovieController {
 		return new ResponseEntity<List<Movie>>(list, new HttpHeaders(), HttpStatus.OK);
 	}
 
+	/**
+	 * Metodo que guarda una pelicula
+	 * @param movie
+	 * @return ResponseEntity<?>
+	 */
 	@PostMapping("/action/movies/save")
 	public ResponseEntity<?> registerMovie(@Valid @RequestBody Movie movie) {
 
@@ -98,6 +135,11 @@ public class MovieController {
 		return ResponseEntity.ok(new ApiResponse(true, "Movie registered"));
 	}
 
+	/**
+	 * Metodo que actualiza una pelicula
+	 * @param movie
+	 * @return ResponseEntity<?>
+	 */
 	@PutMapping("/action/movies/update")
 	public ResponseEntity<?> updateMovie(@Valid @RequestBody Movie movie) {
 		UserPrincipal user = SecurityUtils.getCurrentUser();
@@ -112,6 +154,12 @@ public class MovieController {
 		return ResponseEntity.ok(new ApiResponse(true, "Movie updated"));
 	}
 
+	/**
+	 * Metodo que habilita o inhabilita una pelicula
+	 * @param id
+	 * @param enabled
+	 * @return ResponseEntity<?>
+	 */
 	@PatchMapping("/action/movies/remove/{id}/{enabled}")
 	public ResponseEntity<?> qualificationMovie(@PathVariable("id") Long id, @PathVariable("enabled") int enabled) {
 
@@ -132,6 +180,11 @@ public class MovieController {
 		return ResponseEntity.ok(new ApiResponse(true, "Movie availability updated"));
 	}
 
+	/**
+	 * Metodo que elimina una pelicula
+	 * @param id de la movie
+	 * @return ResponseEntity<?>
+	 */
 	@DeleteMapping("/action/movies/delete/{id}")
 	public ResponseEntity<?> deleteMovie(@PathVariable("id") Long id) {
 
@@ -144,6 +197,11 @@ public class MovieController {
 		return ResponseEntity.ok(new ApiResponse(true, "Movie deleted"));
 	}
 
+	/**
+	 * Metodo que valida si es valido el parametro
+	 * @param enabled
+	 * @return true si es un valor valido 0 o 1
+	 */
 	private boolean isValidEnabledValue(Integer enabled) {
 		if (enabled == 1 || enabled == 0) {
 			return true;

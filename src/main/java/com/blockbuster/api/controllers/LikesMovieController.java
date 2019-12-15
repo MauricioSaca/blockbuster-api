@@ -20,6 +20,12 @@ import com.blockbuster.api.utils.SecurityUtils;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 
+ * @author msaca
+ *
+ */
+
 @RestController
 @RequestMapping("/blockbuster")
 @Validated
@@ -32,7 +38,12 @@ public class LikesMovieController {
 
 	@Autowired
 	private MovieRepository movieRepository;
-
+	
+	/**
+	 * Metodo para dar like a las peliculas
+	 * @param id de la movie
+	 * @return ResponseEntity<?>
+	 */
 	@PostMapping("/like/movies/{id}/userlike")
 	public ResponseEntity<?> likeUserMovie(@PathVariable("id") Long id) {
 
