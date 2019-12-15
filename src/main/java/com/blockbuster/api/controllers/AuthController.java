@@ -129,7 +129,7 @@ public class AuthController {
 		confirmationTokenRepository.save(confirmationToken);
 		StringBuilder sb = new StringBuilder();
 		sb.append("o confirm your account, please click here : ");
-		sb.append("http://localhost:8080/api/auth/confirm-account?token=");
+		sb.append("https://blockbuster-api.herokuapp.com/api/auth/confirm-account?token=");
 		sb.append(confirmationToken.getConfirmationToken());
 
 		SimpleMailMessage mailMessage = new SimpleMailMessage();
