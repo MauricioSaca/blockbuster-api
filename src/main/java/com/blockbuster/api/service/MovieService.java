@@ -12,7 +12,10 @@ public interface MovieService {
 
 	Movie findMovieById(Long id);
 
-	List<Movie> findAllMovies();
+	List<Movie> findAllMoviesByAvailability(Integer pageNo, Integer pageSize, String sortBy, String direction,
+			Boolean availability);
+
+	List<Movie> findAllMoviesByTitle(Integer pageNo, Integer pageSize, String sortBy, String direction, String title);
 
 	void saveMovie(Movie movie);
 

@@ -145,22 +145,31 @@ public class SalesMovieController {
 		}
 	}
 	
+
+	private void substractMovieStock(Movie movie) {
+		Integer newStock = movie.getStock() - 1;
+		movie.setStock(newStock);
+		setUnavailabilityMovie(movie);
+	}
+	
+	private void setUnavailabilityMovie(Movie movie) {
+		if (isNotAvailableMovie(movie)) {
+			movie.setAvailability(false);
+		}
+	}
+
+	private void sumMovieStock(Movie movie) {
+		Integer newStock = movie.getStock() + 1;
+		movie.setStock(newStock);
+	}
+	
+
 	private boolean isNotAvailableMovie(Movie movie) {
 		if (movie.getStock() == 0) {
 			return true;
 		} else {
 			return false;
 		}
-	}
-
-	private void substractMovieStock(Movie movie) {
-		Integer newStock = movie.getStock() - 1;
-		movie.setStock(newStock);
-	}
-
-	private void sumMovieStock(Movie movie) {
-		Integer newStock = movie.getStock() + 1;
-		movie.setStock(newStock);
 	}
 
 }
