@@ -1,5 +1,8 @@
 package com.blockbuster.api.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -35,22 +38,45 @@ public class BlockBusterApplication extends SpringBootServletInitializer {
 	@Bean
 	CommandLineRunner initDatabase(UserPrincipalRepository userRepository,
 			AuthoritiesRepository authoritiesRepository) {
+
+		List<UserPrincipal> defaultUserList = new ArrayList<>();
+		List<Authorities> defaultAuthoritiesList = new ArrayList<>();
+
 		UserPrincipal adminUser = new UserPrincipal();
 		String password = new BCryptPasswordEncoder().encode("admin");
 		adminUser.setName("Mauricio");
 		adminUser.setLastName("Saca");
 		adminUser.setUsername("msaca");
 		adminUser.setPassword(password);
-		adminUser.setEmail("mauricio.saca@mh.gob.sv");
+		adminUser.setEmail("saca.menendez@gmai.com");
 		adminUser.setEnabled(true);
 
 		Authorities auth = new Authorities();
 		auth.setUserPrincipal(adminUser);
 		auth.setRole(RoleEnum.ADMIN);
 
+		UserPrincipal normalUser = new UserPrincipal();
+		String passwordUser = new BCryptPasswordEncoder().encode("user");
+		normalUser.setName("Applaudo");
+		normalUser.setLastName("Studio");
+		normalUser.setUsername("astudio");
+		normalUser.setPassword(passwordUser);
+		normalUser.setEmail("saca.menendez@gmai.com");
+		normalUser.setEnabled(true);
+
+		Authorities authUser = new Authorities();
+		authUser.setUserPrincipal(normalUser);
+		authUser.setRole(RoleEnum.USER);
+		
+		defaultUserList.add(adminUser);
+		defaultUserList.add(normalUser);
+		
+		defaultAuthoritiesList.add(auth);
+		defaultAuthoritiesList.add(authUser);
+
 		return args -> {
-			userRepository.save(adminUser);
-			authoritiesRepository.save(auth);
+			userRepository.saveAll(defaultUserList);
+			authoritiesRepository.saveAll(defaultAuthoritiesList);
 		};
 	}
 
