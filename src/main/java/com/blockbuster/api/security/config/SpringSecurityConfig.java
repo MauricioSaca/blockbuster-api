@@ -54,6 +54,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
          			.antMatchers("/blockbuster/movies/**").permitAll()
          			.antMatchers("/blockbuster/action/movies/**").hasRole("ADMIN")
          			.antMatchers("/blockbuster/admins/movies/**").hasRole("ADMIN")
+         			.antMatchers("/blockbuster/api/auth/change/user/**").hasRole("ADMIN")
          			.antMatchers("/blockbuster/users/movies/**").hasRole("USER")
          			.antMatchers("/blockbuster/rent/movies/**").hasRole("USER")
          			.antMatchers("/blockbuster/purchase/movies/**").hasRole("USER")

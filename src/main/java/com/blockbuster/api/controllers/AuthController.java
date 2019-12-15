@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,7 @@ import com.blockbuster.api.pojos.ApiResponse;
 import com.blockbuster.api.pojos.JwtAuthenticationResponse;
 import com.blockbuster.api.pojos.LoginRequest;
 import com.blockbuster.api.pojos.SignUpRequest;
+import com.blockbuster.api.repository.AuthoritiesRepository;
 import com.blockbuster.api.repository.ConfirmationTokenRepository;
 import com.blockbuster.api.repository.UserPrincipalRepository;
 import com.blockbuster.api.security.jwt.config.JwtTokenProvider;
@@ -53,6 +55,9 @@ public class AuthController {
 
 	@Autowired
 	private UserPrincipalRepository userPrincipalRepository;
+
+	@Autowired
+	private AuthoritiesRepository authoritiesRepository;
 
 	@Autowired
 	private ConfirmationTokenRepository confirmationTokenRepository;
@@ -141,6 +146,23 @@ public class AuthController {
 		}
 
 		return ResponseEntity.ok(new ApiResponse(true, "User registered successfully"));
+	}
+
+	@PatchMapping("/change/user/{username}/authorities/{role}")
+	public ResponseEntity<?> changeUserRole(@PathVariable("username") String username,
+			@PathVariable("role") String role) {
+		ApiResponse result = new ApiResponse();
+
+		if (!userPrincipalRepository.existsByUsername(username)) {
+			return new ResponseEntity(new ApiResponse(false, "Username does not exits!"), HttpStatus.BAD_REQUEST);
+		}
+
+		Authorities authUser = authoritiesRepository.findByUsername(username).orElse(new Authorities());
+		RoleEnum newRole = RoleEnum.getRoleEnum(role.toUpperCase());
+		authUser.setRole(newRole);
+		authoritiesRepository.save(authUser);
+
+		return ResponseEntity.ok(new ApiResponse(true, "Role change for username " + username));
 	}
 
 }
