@@ -7,5 +7,5 @@ import com.blockbuster.api.models.SaleLogBook;
 
 @Repository
 public interface SaleLogBookRepository extends JpaRepository<SaleLogBook, Long>{
-
+	
 }

@@ -53,6 +53,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
          			.antMatchers("/api/auth/**").permitAll()
          			.antMatchers("/blockbuster/movies/**").permitAll()
          			.antMatchers("/blockbuster/action/movies/**").hasRole("ADMIN")
+         			.antMatchers("/blockbuster/rent/movies/**").hasRole("USER")
+         			.antMatchers("/blockbuster/purchase/movies/**").hasRole("USER")
          	.and()
          		.csrf()
          			.disable()

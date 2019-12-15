@@ -2,6 +2,7 @@ package com.blockbuster.api.service;
 
 import java.util.List;
 
+import com.blockbuster.api.models.Movie;
 import com.blockbuster.api.models.SaleLogBook;
 
 public interface SaleLogBookService {
@@ -10,7 +11,7 @@ public interface SaleLogBookService {
 
 	List<SaleLogBook> findAllSaleLogBooks();
 
-	void saveSaleLogBook(SaleLogBook saleLogBook);
+	void saveSaleLogBook(SaleLogBook saleLogBook, Movie movie);
 
 	void updateSaleLogBook(SaleLogBook saleLogBook);
 

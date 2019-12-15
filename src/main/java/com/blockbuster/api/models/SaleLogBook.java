@@ -17,12 +17,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.blockbuster.api.enums.PenaltyPeriodicity;
 import com.blockbuster.api.enums.TransactionType;
+import com.blockbuster.api.utils.JsonDateSerializer;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -50,12 +56,24 @@ public class SaleLogBook implements Serializable {
 	@Column(nullable = false)
 	private Long id;
 
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonSerialize(using = JsonDateSerializer.class)
 	@Column(nullable = true)
 	private Date startDate;
 
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonSerialize(using = JsonDateSerializer.class)
 	@Column(nullable = true)
 	private Date endDate;
 
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonSerialize(using = JsonDateSerializer.class)
 	@Column(nullable = true)
 	private Date returnDate;
 
@@ -74,10 +92,14 @@ public class SaleLogBook implements Serializable {
 	@Column(nullable = false)
 	private Double total;
 
-	@Column(nullable = true)
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@Column(nullable = false)
 	private Date transationDate;
 
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String penaltyPeriodicity;
 
 	@Column(nullable = false)
@@ -87,6 +109,11 @@ public class SaleLogBook implements Serializable {
 	@JoinColumns({ @JoinColumn(name = "USER_ID", referencedColumnName = "ID", nullable = false) })
 	@NotFound(action = NotFoundAction.IGNORE)
 	private UserPrincipal userPrincipal;
+
+	@ManyToOne
+	@JoinColumns({ @JoinColumn(name = "MOVIE_ID", referencedColumnName = "ID", nullable = false) })
+	@NotFound(action = NotFoundAction.IGNORE)
+	private Movie movie;
 
 	// Relation by enum
 

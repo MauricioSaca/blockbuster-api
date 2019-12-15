@@ -17,9 +17,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.blockbuster.api.utils.JsonDateSerializer;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -56,6 +63,10 @@ public class MovieLog implements Serializable {
 	@Column(nullable = false)
 	private Double salesPrice;
 
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonSerialize(using = JsonDateSerializer.class)
 	@Column(nullable = false)
 	private Date modificateDate;
 

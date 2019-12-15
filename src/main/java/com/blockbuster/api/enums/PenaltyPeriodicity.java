@@ -7,11 +7,13 @@ package com.blockbuster.api.enums;
 
 public enum PenaltyPeriodicity {
 
-	LOW("LOW", "Periodo de 1 a 3 dias", 1D),
-	 
-	MEDIUM("MEDIUM", "Periodo de 1 a 5 dias", 2D),
+	NONE("NONE", "A tiempo", 0.0),
 	
-	HIGH("HIGH", "Periodo de 1 a 7 dias", 3D);
+	LOW("LOW", "Periodo de 1 a 3 dias", 0.1),
+	 
+	MEDIUM("MEDIUM", "Periodo de 5 a 10 dias", 0.3),
+	
+	HIGH("HIGH", "Periodo mas de 10 dias", 0.5);
 	
 	String code;
 

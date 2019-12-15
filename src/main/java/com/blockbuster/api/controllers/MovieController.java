@@ -27,6 +27,7 @@ import com.blockbuster.api.models.UserPrincipal;
 import com.blockbuster.api.pojos.ApiResponse;
 import com.blockbuster.api.repository.MovieRepository;
 import com.blockbuster.api.service.MovieService;
+import com.blockbuster.api.utils.SecurityUtils;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -68,8 +69,7 @@ public class MovieController {
 
 	@PutMapping("/action/movies/update")
 	public ResponseEntity<?> updateMovie(@Valid @RequestBody Movie movie) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		UserPrincipal user = (UserPrincipal) authentication.getPrincipal();
+		UserPrincipal user = SecurityUtils.getCurrentUser();
 		MovieLog movieLog = new MovieLog();
 		movieLog.setTitle(movie.getTitle());
 		movieLog.setRentalPrice(movie.getRentalPrice());
